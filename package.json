@@ -22,6 +22,7 @@
     "should": "^13.2.1"
   },
   "scripts": {
+    "start":"npm test"
     "test": "istanbul cover _mocha -- --opts mocha.opts",
     "coverage": "lcov-badge -o ./badge.svg -l coverage ./coverage/lcov.info"
   },
