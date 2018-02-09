@@ -1,11 +1,9 @@
 let download = require('download-git-repo');
 let path = require('path')
-let fs = require('fs');
-let foreach = require('foreach');
 
 let config = {
     path: path.join(process.cwd(), process.argv[2]),
-    project: 'lunhg/pingado-boilerplate#test',
+    project: 'lunhg/pingado-boilerplate',
     callback: function (err) {
 	console.log("Done")
     }

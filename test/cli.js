@@ -11,11 +11,8 @@ describe("Pingado Command Line Interface", function(){
     it("should create new application by downloading boilerplate", function(){
 	return new Promise(function(resolve, reject){
 	    cmd('node '+bin+' create blog').then(function(stdout){
-		fs.readdir(path.join(__dirname,'..', 'blog'), function(err, filePaths){
-		    if(err) reject(err)
-		    filePaths.should.containDeep([ '.gitignore','app','badge.svg','index.js','locales','mocha.opts','package.json','routes','test' ])
-		    resolve()
-		})
+		console.log(stdout)
+		resolve()
 	    })
 	})
     })
@@ -26,11 +23,10 @@ describe("Pingado Command Line Interface", function(){
 		let opt = opts.split("\n").join(" ")
 		let folders = '.gitignore .env app badge.svg index.js locales mocha.opts package.json routes test'.split(' ')
 		cmd('node '+bin+' env '+opt, {cwd:blog}).then(function(stdout){
-		    fs.readdir(blog, function(err, filePaths){
-			if(err) reject(err)
-			filePaths.should.containDeep(folders)
+		    console.log(stdout)
+		    setTimeout(function(){
 			resolve()
-		    })
+		    }, 1000)
 		})
 	    })  
 	})
@@ -40,11 +36,10 @@ describe("Pingado Command Line Interface", function(){
     it("should generate model Post", function(){
 	return new Promise(function(resolve, reject){
 	    return cmd('node '+bin+' generate mongoose model Post', {cwd:blog}).then(function(stdout){
-		fs.readdir(blog+'/app/models', function(err, filePaths){
-		    if(err) reject(err)
-		    filePaths.should.containDeep(['Post'])
+		console.log(stdout)
+		setTimeout(function(){
 		    resolve()
-		})
+		}, 1000)
 	    })
 	})
     })
@@ -52,12 +47,11 @@ describe("Pingado Command Line Interface", function(){
     it("should generate controller for Post model", function(){
 	return new Promise(function(resolve, reject){
 	    return cmd('node '+bin+' generate mongoose controller Post', {cwd:blog}).then(function(stdout){
-		fs.readdir(blog+'/app/controllers', function(err, filePaths){
-		    if(err) reject(err)
-		    filePaths.should.containDeep(['Post'])
+		console.log(stdout)
+		setTimeout(function(){
 		    resolve()
-		})
-	    })
+		}, 1000)
+	    }).catch(reject)
 	})
     })
 
@@ -65,28 +59,76 @@ describe("Pingado Command Line Interface", function(){
 	return new Promise(function(resolve, reject){
 	    return cmd('node '+bin+' generate vue-pug view Post', {cwd:blog}).then(function(stdout){
 		console.log(stdout)
-		fs.readdir(blog+'/app', function(err, filePaths){
-		    if(err) reject(err)
-		    console.log(filePaths)
-		    filePaths.should.containDeep([
-			'views',
-			'controllers',
-			'models',
-			'assets'
-		    ])
-		})
-		fs.readdir(blog+'/app/views', function(err, filePaths){
-		    if(err) reject(err)
-		    console.log(filePaths)
-		    filePaths.should.containDeep([
-			'index.pug',
-			'layout.pug',
-			'error.pug',
-			'dashboard.vue',
-			'post.vue'
-		    ])
+		setTimeout(function(){
 		    resolve()
-		})
+		}, 1000)
+	    }).catch(reject)
+	})
+    })
+
+
+    it("should test if blog/ structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readdir(path.join(__dirname,'..', 'blog'), function(err, filePaths){
+		if(err) reject(err)
+		filePaths.should.containDeep([ '.gitignore','app','badge.svg','index.js','locales','mocha.opts','package.json','routes','test' ])
+		resolve()
+	    })
+	})
+    })
+
+    it("should test if app/ structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readdir(blog+'/app', function(err, filePaths){
+		if(err) reject(err)
+		filePaths.should.containDeep([
+		    'views',
+		    'controllers',
+		    'models',
+		    'assets'
+		])
+		resolve()
+	    })
+	})
+    })
+
+    it("should test if app/models structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readdir(blog+'/app/models', function(err, filePaths){
+		if(err) reject(err)
+		filePaths.should.containDeep([
+		    'post.js',
+		])
+		resolve()
+	    })
+	})
+    })
+
+    it("should test if app/controllers structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readdir(blog+'/app/controllers', function(err, filePaths){
+		if(err) reject(err)
+		filePaths.should.containDeep([
+		    'index.js',
+		    'post.js'
+		])
+		resolve()
+	    })
+	})
+    })
+
+    it("should test if app/views structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readdir(blog+'/app/views', function(err, filePaths){
+		if(err) reject(err)
+		filePaths.should.containDeep([
+		    'index.pug',
+		    'layout.pug',
+		    'error.pug',
+		    'dashboard.vue',
+		    'post.vue'
+		])
+		resolve()
 	    })
 	})
     })
@@ -98,7 +140,7 @@ describe("Pingado Command Line Interface", function(){
 		setTimeout(function(){
 		    resolve()
 		}, 60000)
-	    })
+	    }).catch(reject)
 	})
     })
     
@@ -109,7 +151,7 @@ describe("Pingado Command Line Interface", function(){
 		setTimeout(function(){
 		    resolve()
 		}, 60000)
-	    })
+	    }).catch(reject)
 	})
     })
 })
