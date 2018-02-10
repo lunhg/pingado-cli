@@ -13,10 +13,10 @@ let options = {
 }
 
 if(options.fold === 'model' || options.fold === 'controller'){
-    options.path = path.join(process.cwd(), 'app', options.fold+'s')
+    options.path = path.join(process.cwd(), 'app', options.fold+'s', options.name)
 }
 if(options.fold === 'view'){
-    options.path = path.join(process.cwd(), 'app')
+    options.path = path.join(process.cwd())
 }
 let config = {
     path: options.path,

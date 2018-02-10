@@ -1,5 +1,5 @@
 --host localhost
 --port 27017 
---database DB
---user USER
---pwd PWD
+--database pingado-boilerplate
+--user admin
+--pwd pingado-boilerplate
