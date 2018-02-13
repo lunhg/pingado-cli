@@ -51,28 +51,29 @@ Generate a new view for controller
 
 These commands will generate the following file structure:
 
-    blog/
-	    app/
-		    assets/
-			    images/
-				css/
-				js/
-				doc/
-			views/
-			    layout.pug
-				index.pug
-				error.pug
-				dashboard.vue
-				<model>.vue
-	        models
-				<Model>/
-				    model.js
-					schema.js
-	    routes/
-			main.js
-		test/
-			pingado.opts
-			server.js
+  - blog/
+  - ____app/
+  - ________assets/
+  - ____________images/
+  - ____________css/
+  - ____________js/
+  - ____________doc/
+  - ________views/
+  - ____________layout.pug
+  - ____________index.pug
+  - ____________error.pug
+  - ____________dashboard.vue
+  - ____________<model>.vue
+  - ________models
+  - ________<Model>/
+  - ____________model.js
+  - ____________schema.js
+  - ____routes/
+  - ________main.js
+  - ________routes.json
+  - ____test/
+  - ________pingado.opts
+  - ________server.js
 
 ## Tests
 
