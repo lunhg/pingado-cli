@@ -33,7 +33,38 @@ describe("Pingado Command Line Interface", function(){
 	    cmd('node '+bin+' env '+opt.split("\n").join(" "), {cwd:blog}).then(function(stdout){
 		console.log(stdout)
 	    }).then(resolve).catch(reject)
-	});
+		});
+    });
+
+    it("should test if .env structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readFile(blog+'/.env', function(err, data){
+		if(err) reject(err)
+		let _data_ = [
+		    "PINGADO_PORT=3000",
+		    "PINGADO_DATABASE='mongodb://admin:blog@localhost:27017/blog'",
+		    "PINGADO_LOGGER=':remote-addr - :remote-user [:date[clf]] :method :url HTTP/:http-version :status :res[content-length] :referrer :user-agent'",
+		    "PINGADO_VIEWS='%ROOT/app/views'",
+		    "PINGADO_ENGINE='pug'",
+		    "PINGADO_PUBLIC='%ROOT/app/assets'",
+		    "PINGADO_IMAGES='%ROOT/app/assets/images'",
+		    "PINGADO_FONTS='%ROOT/app/assets/fonts'",
+		    "PINGADO_STYLES='%ROOT/app/assets/css'",
+		    "PINGADO_SCRIPTS='%ROOT/app/assets/js'",
+		    "PINGADO_COVERAGE='%ROOT/coverage/lcov-report'",
+		    "PINGADO_REPORT='%ROOT/mochawesome-report'",
+		    "PINGADO_DOCUMENTATION='%ROOT/app/assets/doc/'",
+		    "PINGADO_LOCALES='en pt-br'",
+		    "PINGADO_LOCALES_DIR='%ROOT/locales'", 
+		    "BLUEBIRD_LONG_STACK_TRACES=1", 
+		    "BLUEBIRD_WARNINGS=1",
+		]
+		foreach(data.toString().split("\n"), function(e,i,a){
+		    e.should.be.equal(_data_[i])
+		})
+		resolve()
+	    })
+	})
     })
 
     it("should install packages", function(){
@@ -41,7 +72,7 @@ describe("Pingado Command Line Interface", function(){
 	    return cmd('npm install', {cwd:blog}).then(function(stdout){
 		console.log(stdout)
 	    }).then(resolve).catch(reject)
-	})
+		})
     })
 
     
@@ -158,7 +189,7 @@ describe("Pingado Command Line Interface", function(){
 	    return cmd('node '+bin+' generate mongoose model Post', {cwd:blog}).then(function(stdout){
 		console.log(stdout)
 	    }).then(resolve).catch(reject)
-	})
+		})
     })
     
 
@@ -209,7 +240,7 @@ describe("Pingado Command Line Interface", function(){
 	})
     })
     
-     it("should test if app/ structure is ok", function(){
+    it("should test if app/ structure is ok", function(){
 	return new Promise(function(resolve, reject){
 	    fs.readdir(blog+'/app', function(err, filePaths){
 		if(err) reject(err)
@@ -277,19 +308,44 @@ describe("Pingado Command Line Interface", function(){
 	})
     })
 
+    
+
     it("should test if routes/ structure is ok", function(){
 	return new Promise(function(resolve, reject){
 	    fs.readdir(blog+'/routes', function(err, filePaths){
 		if(err) reject(err)
 		filePaths.should.containDeep([
 		    'main.js',
-		    'vue.js'
+		    'vue.js',
+		    'routes.json'
 		])
 		resolve()
 	    })
 	})
     })
-    
+
+    it("should test if routes/routes.json structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readFile(blog+'/routes/routes.json', function(err, data){
+		if(err) reject(err)
+		let _data_ = [
+		    '{',
+		    '    "GET": {',
+		    '        "/": "index"',
+		    '    },', 
+		    '    "POST": {',
+		    '        "/": "index-post"',
+		    '    }',
+		    '}'
+		]
+		foreach(data.toString().split("\n"), function(e,i,a){
+		    e.should.be.equal(_data_[i])
+		})
+		resolve()
+	    })
+	})
+    })
+
     it("should test blog", function(){
 	return new Promise(function(resolve, reject){
 	    return cmd('npm test', {cwd:blog}).then(function(stdout){
@@ -299,8 +355,8 @@ describe("Pingado Command Line Interface", function(){
     })
 
     after(function(){
-	cmd('rm -r blog/', {cwd: process.cwd()}).then(function(stdout){
-	    console.log(stdout)
-	})
+    	cmd('rm -r blog/', {cwd: process.cwd()}).then(function(stdout){ 
+        console.log(stdout)
+    	})
     })
 })

@@ -1,5 +1,5 @@
 --host localhost
 --port 27017 
---database pingado-boilerplate
+--database blog
 --user admin
---pwd pingado-boilerplate
+--pwd blog
