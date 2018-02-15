@@ -6,14 +6,25 @@ const foreach = require('foreach');
 
 describe("Pingado Command Line Interface", function(){
 
-    let bin = path.join(__dirname, '..', 'index.js')
+    let bin = path.join(__dirname, '..', 'bin', 'pingado')
     let blog = process.cwd()+'/blog'
+
+    it("should output help", function(){
+	return new Promise(function(resolve, reject){
+	    cmd('node '+bin+' --help').then(function(stdout){
+		console.log(stdout)
+	    }).then(resolve).catch(reject)
+	})
+    })
 
     it("should create new application by downloading boilerplate", function(){
 	return new Promise(function(resolve, reject){
 	    cmd('node '+bin+' create blog').then(function(stdout){
 		console.log(stdout)
-	    }).then(resolve).catch(reject)
+	    }).then(resolve).catch(function(err){
+		console.log(err)
+		resolve()
+	    })
 	})
     })
 
@@ -30,16 +41,17 @@ describe("Pingado Command Line Interface", function(){
     it("should create new .env file at blog/ folder", function(){
 	return new Promise(function(resolve, reject){
 	    let opt = fs.readFileSync(path.join(__dirname,'pingado.opts'), 'utf8')
-	    cmd('node '+bin+' env '+opt.split("\n").join(" "), {cwd:blog}).then(function(stdout){
+	    cmd('node '+bin+' database '+opt.split("\n").join(" "), {cwd:blog}).then(function(stdout){
 		console.log(stdout)
 	    }).then(resolve).catch(reject)
-		});
+	});
     });
 
     it("should test if .env structure is ok", function(){
 	return new Promise(function(resolve, reject){
 	    fs.readFile(blog+'/.env', function(err, data){
 		if(err) reject(err)
+		console.log(data)
 		let _data_ = [
 		    "PINGADO_PORT=3000",
 		    "PINGADO_DATABASE='mongodb://admin:blog@localhost:27017/blog'",
@@ -65,17 +77,7 @@ describe("Pingado Command Line Interface", function(){
 		resolve()
 	    })
 	})
-    })
-
-    it("should install packages", function(){
-	return new Promise(function(resolve, reject){
-	    return cmd('npm install', {cwd:blog}).then(function(stdout){
-		console.log(stdout)
-	    }).then(resolve).catch(reject)
-		})
-    })
-
-    
+    })  
 
     it("should test if blog/ structure is ok", function(){
 	return new Promise(function(resolve, reject){
@@ -94,6 +96,26 @@ describe("Pingado Command Line Interface", function(){
 		filePaths.should.containDeep([
 		    'main.js'
 		])
+		resolve()
+	    })
+	})
+    })
+
+    it("should test if routes/routes.json structure is ok", function(){
+	return new Promise(function(resolve, reject){
+	    fs.readFile(blog+'/routes/routes.json', function(err, data){
+		if(err) reject(err)
+		let _data_ = [
+		    '{',
+		    '    "GET":{',
+		    '\t"/:lang": "index"',
+		    '    }',
+		    '}',
+		    ''
+		]
+		foreach(data.toString().split("\n"), function(e,i,a){
+		    e.should.be.equal(_data_[i])
+		})
 		resolve()
 	    })
 	})
@@ -331,7 +353,7 @@ describe("Pingado Command Line Interface", function(){
 		let _data_ = [
 		    '{',
 		    '    "GET": {',
-		    '        "/": "index"',
+		    '        "/:lang": "index"',
 		    '    },', 
 		    '    "POST": {',
 		    '        "/": "index-post"',
@@ -348,15 +370,17 @@ describe("Pingado Command Line Interface", function(){
 
     it("should test blog", function(){
 	return new Promise(function(resolve, reject){
-	    return cmd('npm test', {cwd:blog}).then(function(stdout){
-		console.log(stdout)
-	    }).then(resolve).catch(reject)
+	    var Mocha = require("mocha");
+	    var mocha = new Mocha();
+	    mocha.addFile(path.join(__dirname, '..', 'blog', 'test', "server.js"));
+	    mocha.run();
+	    resolve() 
 	})
     })
 
     after(function(){
     	cmd('rm -r blog/', {cwd: process.cwd()}).then(function(stdout){ 
-        console.log(stdout)
+            console.log(stdout)
     	})
     })
 })

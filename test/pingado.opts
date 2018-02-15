@@ -1,5 +1,5 @@
+--db blog
 --host localhost
---port 27017 
---database blog
+--port 27017
 --user admin
 --pwd blog

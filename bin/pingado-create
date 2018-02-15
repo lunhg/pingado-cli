@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+const download = require('download-git-repo');
+const path = require('path')
+const fs = require('fs')
+const cmd = require('../lib/child')
+const Env = require('../lib/env')
+
+let config = {
+    path: path.join(process.cwd(), process.argv[2]),
+    project: 'lunhg/pingado-boilerplate',
+    callback: function (err) {
+    	if(err) throw err
+	//backup index files to reuse it with the command `generate vue-pug view` 
+	let view = fs.readFileSync(config.path+'/app/views/index.pug', 'utf8')
+	fs.writeFile(config.path+'/app/views/index.pug.bak', view, function(err){
+	    if (err) throw err
+	    cmd('npm install', {cwd:config.path}).then(function(stdout){
+	        console.log(stdout)
+	        console.log("Done")
+	    })
+	})
+    }
+}
+
+console.log("Downloading https://www.github.com/"+config.project+" to "+config.path)
+download(config.project, config.path, config.callback)
+
+

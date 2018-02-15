@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+let download = require('download-git-repo');
+let path = require('path')
+let fs = require('fs');
+let foreach = require('foreach');
+let check = require('../lib/check')
+
+let args = process.argv.slice(2)
+
+let options = {
+    type: args[0],
+    fold: args[1],
+    name: args[2]
+}
+
+if(options.fold === 'model' || options.fold === 'controller'){
+    options.path = path.join(process.cwd(), 'app', options.fold+'s', options.name)
+}
+if(options.fold === 'view'){
+    options.path = path.join(process.cwd())
+}
+let config = {
+    path: options.path,
+    project: 'lunhg/pingado-boilerplate-'+options.type+'-'+options.fold,
+    callback: function (err) {
+	if(err) console.log(err)
+	check(options).then(function(){
+	    console.log(options.type+" "+options.fold+" "+options.name+" created ")
+	})
+	
+    }
+}
+
+console.log("Downloading https://www.github.com/"+config.project+" to "+config.path)
+download(config.project, config.path, config.callback)
+
+

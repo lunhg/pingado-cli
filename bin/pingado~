@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const fs = require('fs');
+const path = require('path')
+const foreach = require('foreach')
+const chalk = require('chalk')
+
+program.version('0.0.2')
+    .command('create [project]', 'Downloads pingado-boilerplate as new project')
+    .command('database [name] [--options[k,v]]', 'Act as a database configuration')
+    .command('generate [type] [model|controller|view] [UppercaseName]', 'setup MVC structure')
+    .on('--help', function(){
+	let data = fs.readFileSync(path.join(__dirname, '..', 'HELP.md'), 'utf8')
+	console.log('')
+	foreach(data.split("\n"), function(line, i, a){
+	    if(line.match(/^[\#]+\s[A-Z].*$/)) line = chalk.cyan(line)
+	    if(line.match(/^_.*_*$/)){
+		line.replace(/\_/, '')
+		line = chalk.red(line)
+	    }
+	    if(line.match(/\$\s.*/)) line = chalk.green(line)
+	    console.log(line)
+	})
+    })
+    .parse(process.argv);

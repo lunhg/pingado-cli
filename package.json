@@ -1,15 +1,19 @@
 {
    "name": "pingado",
-   "version": "0.0.1",
+   "version": "0.0.2",
    "description": "command line interface for pingado framework",
    "main": "index.js",
+   "bin": "bin/pingado",
    "directories": {
+      "bin": "bin",
       "lib": "lib",
       "test": "test"
    },
    "dependencies": {
+      "2": "^1.0.2",
       "bluebird": "^3.5.1",
       "buffered-spawn": "^3.3.2",
+      "chalk": "^2.3.1",
       "commander": "^2.14.1",
       "download-git-repo": "^1.0.2",
       "enquirer": "^1.0.3",

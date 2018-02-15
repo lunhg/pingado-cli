@@ -1,5 +1,7 @@
+#!/usr/bin/env node
+
 const path = require('path')
-const Env = require('./lib/env')
+const Env = require('../lib/env')
 
 let env = path.join(process.cwd(), ".env")
 let _env_ = path.join(path.join(__dirname, 'env.template'))
