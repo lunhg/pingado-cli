@@ -19,61 +19,9 @@ or by npm, adding the following line in upur terminal:
 
 # Usage
 
-Create a new application
+See `HELP.md` file, or use the following command:
 
-    pingado create blog
-
-Generate a new .env file with mongodb database configurations 
-
-    pingado env --host localhost --port 27017 --database <database name> --user <database user>. --pwd <database password>
-
-Generate a new mongoose model
-
-    pingado generate mongoose model <Model name>
-
-Generate a new controller that comunicate with your model
-
-    pingado generate mongoose controller <Model name>
-
-Generate a new view for controller
-
-    pingado vue-pug view <model name>
-
-## Macros
-
-- `pingado`: the command name
-- `create`: downloads the boilerplate from `https://www.github.com/lunhg/pingado-boilerplate`
-- `env`: generate a `.env` customizing your application
-- `generate`: downloads different boilerplates
-    - `mongoose` and `model` from `https://www.github.com/lunhg/pingado-boilerplate-mongoose-model`
-	- `mongoose` and `controller` from `https://www.github.com/lunhg/pingado-boilerplate-mongoose-controller`
-	- `vue-pug` and `view` from `https://www.github.com/lunhg/pingado-boilerplate-mongoose-model`
-
-These commands will generate the following file structure:
-
-  - blog/
-  - ____app/
-  - ________assets/
-  - ____________images/
-  - ____________css/
-  - ____________js/
-  - ____________doc/
-  - ________views/
-  - ____________layout.pug
-  - ____________index.pug
-  - ____________error.pug
-  - ____________dashboard.vue
-  - ____________<model>.vue
-  - ________models
-  - ________<Model>/
-  - ____________model.js
-  - ____________schema.js
-  - ____routes/
-  - ________main.js
-  - ________routes.json
-  - ____test/
-  - ________pingado.opts
-  - ________server.js
+    `pingado --help`
 
 ## Tests
 

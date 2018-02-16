@@ -29,3 +29,35 @@ _$CWD is the currenty work directory_
   [mongoose view boilerplate](https://www.gith.com/lunhg/pingado-boilerplate-vue-pug-view) with properly pug.js configuration boosted with vue.js
    
     $ pingado generate vue-pug view <View>
+
+# Generated structure:
+
+These commands will generate the following file structure:
+
+  - blog/
+  - ____.env
+  - ____app/
+  - ________assets/
+  - ____________images/
+  - ____________css/
+  - ____________js/
+  - ____________doc/
+  - ________views/
+  - ____________layout.pug
+  - ____________index.pug
+  - ____________error.pug
+  - ____________dashboard.vue
+  - ____________<model>.vue
+  - ________models/
+  - ________<Model>/
+  - ____________model.js
+  - ____________schema.js
+  - ________controllers/
+  - ____________index.js
+  - ____________index-<controller>.js
+  - ____routes/
+  - ________main.js
+  - ________routes.json
+  - ____test/
+  - ________pingado.opts
+  - ________server.js
