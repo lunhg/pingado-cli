@@ -1,6 +1,6 @@
 {
    "name": "pingado",
-   "version": "0.0.2",
+   "version": "0.0.3",
    "description": "command line interface for pingado framework",
    "main": "index.js",
    "bin": "bin/pingado",
@@ -10,7 +10,6 @@
       "test": "test"
    },
    "dependencies": {
-      "2": "^1.0.2",
       "bluebird": "^3.5.1",
       "buffered-spawn": "^3.3.2",
       "chalk": "^2.3.1",
