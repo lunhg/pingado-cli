@@ -370,17 +370,18 @@ describe("Pingado Command Line Interface", function(){
 
     it("should test blog", function(){
 	return new Promise(function(resolve, reject){
-	    var Mocha = require("mocha");
-	    var mocha = new Mocha();
-	    mocha.addFile(path.join(__dirname, '..', 'blog', 'test', "server.js"));
-	    mocha.run();
-	    resolve() 
+	    cmd('npm test', {cwd:blog}).then(function(stdout){
+		console.log(stdout)
+	    }).then(resolve).catch(function(err){
+		console.log(err)
+		resolve()
+	    })
 	})
     })
 
-    after(function(){
-    	cmd('rm -r blog/', {cwd: process.cwd()}).then(function(stdout){ 
-            console.log(stdout)
-    	})
-    })
+    //after(function(){
+    //	cmd('rm -r blog/', {cwd: process.cwd()}).then(function(stdout){ 
+    //        console.log(stdout)
+    //	})
+    //})
 })
